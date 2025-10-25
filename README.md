@@ -4,6 +4,29 @@
 Creatim Backend Assignment
 
 
+## Latest test results
+
+```bash
+➜  creotify git:(main) ✗ composer test
+
+   DEPR  Tests\Unit\AppFixturesTest
+  ! it executes AppFixtures load() successfully → Class "Doctrine\ORM\Proxy\Autoloader" is deprecated. Use native lazy objects instead. (Auto… 0.19s
+
+   PASS  Tests\Unit\ExampleTest
+  ✓ example                                                                                                                                    0.01s
+
+   PASS  Tests\Feature\GetApiHealthTest
+  ✓ it returns 200 OK for /api/health                                                                                                          0.04s
+
+  Tests:    1 deprecated, 2 passed (3 assertions)
+  Duration: 0.30s
+
+  Controller/Api/HealthController ........................................................................................................... 100.0%
+  Kernel .................................................................................................................................... 100.0%
+  ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                                                      Total: 100.0 %
+```
+
 ## Stack
 
 - Symfony 7.3.4
@@ -35,6 +58,7 @@ Creatim Backend Assignment
     ```
 - [x] Add `"test": "XDEBUG_MODE=coverage ./vendor/bin/pest --coverage --min=100"` to composer.json scripts
 - [x] Add `"format": "./vendor/bin/php-cs-fixer fix src --verbose"` to composer.json scripts
+- [x] Ensure all tests pass with `composer test` and 100% coverage
 
 
 ### Domain Modeling
