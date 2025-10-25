@@ -29,12 +29,12 @@ Creatim Backend Assignment
     composer require spatie/ray
     ```
 - [x] Configure CS Fixer
-- [ ] Initialize Pest:
+- [x] Initialize Pest:
     ```bash
     ./vendor/bin/pest --init
     ```
-- [ ] Add `"test": "XDEBUG_MODE=coverage vendor/bin/pest --coverage --min=100"` to composer.json scripts
-- [ ] Add `"format": "vendor/bin/php-cs-fixer fix --verbose"` to composer.json scripts
+- [x] Add `"test": "XDEBUG_MODE=coverage ./vendor/bin/pest --coverage --min=100"` to composer.json scripts
+- [x] Add `"format": "./vendor/bin/php-cs-fixer fix src --verbose"` to composer.json scripts
 
 
 ### Domain Modeling

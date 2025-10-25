@@ -87,7 +87,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "test": "XDEBUG_MODE=coverage ./vendor/bin/pest --coverage --min=100",
+        "format": "./vendor/bin/php-cs-fixer fix src --verbose"
     },
     "conflict": {
         "symfony/symfony": "*"
