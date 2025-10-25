@@ -22,12 +22,13 @@ Creatim Backend Assignment
 - [ ] Add Docker setup (PHP-FPM + Nginx + MySQL + Mailpit)
 - [ ] Extend Dockerfile with Xdebug + Ray pre-configuration
 - [ ] Update `.env` with Postgres credentials
-- [ ] Require optional dev dependencies:
+- [x] Require optional dev dependencies:
     ```bash
     composer require pestphp/pest --dev --with-all-dependencies
     composer require --dev doctrine/doctrine-fixtures-bundle fakerphp/faker friendsofphp/php-cs-fixer
-    composer require spatie/ray-bundle
+    composer require spatie/ray
     ```
+- [x] Configure CS Fixer
 - [ ] Initialize Pest:
     ```bash
     ./vendor/bin/pest --init
