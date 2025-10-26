@@ -23,13 +23,13 @@ class OrderItem
     #[ORM\Column(type: Types::STRING, length: 20)]
     private ?string $itemType = null; // 'article' or 'subscription'
 
-    #[ORM\Column(type: Types::STRING, length: 20)] // article_id or subscription_package_id
-    private ?string $itemId = null;
+    #[ORM\Column(type: Types::INTEGER)] // article_id or subscription_package_id
+    private ?int $itemId = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
 
-    public function __construct(Order $order, string $itemType, string $itemId, string $price)
+    public function __construct(Order $order, string $itemType, int $itemId, string $price)
     {
         $this->order = $order;
         $this->itemType = $itemType;
@@ -66,12 +66,12 @@ class OrderItem
         return $this;
     }
 
-    public function getItemId(): ?string
+    public function getItemId(): ?int
     {
         return $this->itemId;
     }
 
-    public function setItemId(string $itemId): static
+    public function setItemId(int $itemId): static
     {
         $this->itemId = $itemId;
 
