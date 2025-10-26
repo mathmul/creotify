@@ -1,7 +1,7 @@
 
 # Creotify
 
-Creatim Backend Assignment
+Backend Assignment for Creatim
 
 
 ## Latest test results
@@ -27,6 +27,8 @@ Creatim Backend Assignment
                                                                                                                                       Total: 100.0 %
 ```
 
+> _**Note:** Deprecation warnings are expected due to Doctrine DBAL 4 compatibility; they do not indicate test failures._
+
 ## Stack
 
 - Symfony 7.3.4
@@ -42,7 +44,7 @@ Creatim Backend Assignment
 
 - [x] Create new Symfony project via `symfony new creotify --webapp`
 - [x] Configure project with Laravel Herd & HTTPS (https://creotify.test)
-- [x] Add Docker setup (PHP-FPM + Nginx + MySQL + Mailpit)
+- [x] Add Docker setup (PHP-FPM + Nginx + Postgres + Mailpit)
 - [ ] Extend Dockerfile with Xdebug + Ray pre-configuration
 - [x] Update `.env` with Postgres credentials
 - [x] Require optional dev dependencies:
@@ -68,6 +70,7 @@ Creatim Backend Assignment
             "test:integration": "php vendor/bin/pest --group=integration",
         }
     ```
+    See composer.json `"scripts"` for more aliases.
 - [x] Ensure all tests pass with `composer test` and 100% coverage
 
 
@@ -119,7 +122,7 @@ Creatim Backend Assignment
 ### Dockerization
 
 - [x] Add `Dockerfile` + `docker-compose.yml`
-- [x] Include PHP 8.4, Composer, MySQL 8, Nginx
+- [x] Include PHP 8.4, Composer, Postgres 18, Nginx
 
 ### Documentation
 
@@ -171,10 +174,10 @@ docker compose --profile dbonly up -d
 php bin/console doctrine:database:create
 
 # 6) Run migrations
-php bin/console doctrine:migrations:migrate
+composer migrate
 
 # 7) Load fixtures
-php bin/console doctrine:fixtures:load
+composer dev:db:seed
 
 # 8) Serve via Herd (as <folder-name>.test)
 herd init
@@ -214,10 +217,10 @@ docker compose --profile full up -d
 docker compose logs -f app
 
 # 5) Run migrations
-docker compose exec app php bin/console doctrine:migrations:migrate
+docker compose exec app composer migrate
 
 # 6) Load fixtures
-docker compose exec app php bin/console doctrine:fixtures:load
+docker compose exec app composer dev:db:seed
 
 # 7) (Optional) Health + tests with coverage
 curl http://localhost:8080/api/health && echo
