@@ -56,8 +56,18 @@ Creatim Backend Assignment
     ```bash
     ./vendor/bin/pest --init
     ```
-- [x] Add `"test": "XDEBUG_MODE=coverage ./vendor/bin/pest --coverage --min=100"` to composer.json scripts
-- [x] Add `"format": "./vendor/bin/php-cs-fixer fix src --verbose"` to composer.json scripts
+- [x] Add composer scripts:
+    ```json
+        "scripts": {
+            "lint": "php vendor/bin/php-cs-fixer fix --dry-run --diff",
+            "lint:fix": "php vendor/bin/php-cs-fixer fix --verbose",
+            "test": "XDEBUG_MODE=coverage php vendor/bin/pest --coverage --min=100",
+            "test:smoke": "php vendor/bin/pest --group=smoke",
+            "test:unit": "php vendor/bin/pest --group=unit",
+            "test:feature": "php vendor/bin/pest --group=feature",
+            "test:integration": "php vendor/bin/pest --group=integration",
+        }
+    ```
 - [x] Ensure all tests pass with `composer test` and 100% coverage
 
 
@@ -103,7 +113,7 @@ Creatim Backend Assignment
 - [ ] Write functional tests for:
   - [ ] Order creation endpoint
   - [ ] Duplicate purchase restriction
-- [ ] Enforce 100% coverage via composer script
+- [x] Enforce 100% coverage via composer script
 - [ ] Configure Ray to show test output (`ray()->showQueries()->showEvents();`)
 
 ### Dockerization
@@ -209,12 +219,12 @@ docker compose exec app php bin/console doctrine:migrations:migrate
 # 6) Load fixtures
 docker compose exec app php bin/console doctrine:fixtures:load
 
-# 7) (Optional) Health + tests
+# 7) (Optional) Health + tests with coverage
 curl http://localhost:8080/api/health && echo
-docker compose exec app vendor/bin/pest
-# or with coverage
-docker compose exec app XDEBUG_MODE=coverage vendor/bin/pest --coverage --min=100
+docker compose exec app composer test
 ```
+
+> _**Note:** All `composer <command>` commands mentioned below can be run in the container with `docker compose exec app composer <command>`._
 
 
 ## Development
@@ -232,8 +242,8 @@ We follow a Test-Driven Development (TDD) approach:
 
 #### Pest
 
-We use **Pest** instead of PHPUnit for cleaner, expressive tests.
-No Symfony plugin is required — Symfony’s native test classes (`WebTestCase`, `KernelTestCase`) work perfectly with Pest.
+We use **Pest** instead of PHPUnit for cleaner, expressive tests. All test files reside in `tests/` directory, except `./phpunit.dist.xml` on project root.
+Symfony’s native test classes (`WebTestCase`, `KernelTestCase`) work perfectly with Pest.
 
 Symfony provides two main testing layers:
 
@@ -250,8 +260,10 @@ We configured Pest to use these automatically in `tests/Pest.php`:
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-uses(KernelTestCase::class)->in('Unit');
-uses(WebTestCase::class)->in('Feature');
+pest()->extends(KernelTestCase::class)->in('Smoke')->group('smoke');
+pest()->extends(KernelTestCase::class)->in('Unit')->group('unit');
+pest()->extends(WebTestCase::class)->in('Feature')->group('feature');
+pest()->extends(KernelTestCase::class)->in('Integration')->group('integration');
 ```
 
 We initialized Pest:
@@ -260,17 +272,11 @@ We initialized Pest:
 ./vendor/bin/pest --init
 ```
 
-You can create new tests using the built-in Symfony Maker command or simply create files manually under `tests/`:
+Preferably we create new Pest tests manually under `tests/{Smoke,Unit,Feature,Integration}` directories, but we can create new PHPUnit tests using the built-in Symfony Maker command and later convert them to Pest:
 
 ```bash
-php bin/console make:test <TestName>          # Functional test
-php bin/console make:test <TestName> --unit   # Unit test
-```
-
-Initialize additional Pest structures:
-
-```bash
-./vendor/bin/pest --dataset <DatasetName>
+php bin/console make:test WebTestCase Feature\\ExampleApiTest          # Functional test
+php bin/console make:test KernelTestCase Unit\\ExampleUnitTest --unit  # Unit test
 ```
 
 Example test:
@@ -291,14 +297,13 @@ it('returns 200 OK for /api/health', function () {
 Run tests:
 
 ```bash
-./vendor/bin/pest
-# or
-docker compose exec app ./vendor/bin/pest
-
-# With coverage
-XDEBUG_MODE=coverage ./vendor/bin/pest --coverage --min=100
-# or
-docker compose exec app XDEBUG_MODE=coverage ./vendor/bin/pest --coverage --min=100
+# All tests + coverage
+composer test
+# or one of test groups w/o coverage
+composer test:smoke
+composer test:unit
+composer test:feature
+composer test:integration
 ```
 
 #### Code Style (PHP-CS-Fixer)
@@ -321,25 +326,10 @@ Configuration file: `.php-cs-fixer.dist.php`
 You can lint and auto-fix the code manually:
 
 ```bash
-php vendor/bin/php-cs-fixer fix --verbose
-# or for a dry run (check only):
-php vendor/bin/php-cs-fixer fix --dry-run --diff
-```
-
-Add a Composer script for convenience:
-
-```json
-    "scripts": {
-        "lint": "php vendor/bin/php-cs-fixer fix --dry-run --diff",
-        "format": "php vendor/bin/php-cs-fixer fix --verbose"
-    }
-```
-
-Run via Composer:
-
-```bash
-composer lint     # checks style
-composer format   # fixes style issues
+# Dry run
+composer lint
+# Fix
+composer lint:fix
 ```
 
 #### Database Models
@@ -348,10 +338,10 @@ Make sure docker container is running - see [Getting started](#getting-started).
 
 After creating/updating models, create new migration files:
 ```bash
-php bin/console make:migration
+composer make:migrations
 ```
 
-Then run migrations to sync database schema:
+Then sync migrations to database:
 ```bash
-php bin/console doctrine:migrations:migrate
+composer migrate
 ```

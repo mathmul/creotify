@@ -7,11 +7,11 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "doctrine/dbal": "^3",
+        "doctrine/dbal": "^3.10.3",
         "doctrine/doctrine-bundle": "^2.18",
         "doctrine/doctrine-migrations-bundle": "^3.5",
-        "doctrine/orm": "^3.5",
-        "phpdocumentor/reflection-docblock": "^5.6",
+        "doctrine/orm": "^3.5.2",
+        "phpdocumentor/reflection-docblock": "^5.6.3",
         "phpstan/phpdoc-parser": "^2.3",
         "spatie/ray": "^1.43",
         "symfony/asset": "7.3.*",
@@ -20,14 +20,14 @@
         "symfony/doctrine-messenger": "7.3.*",
         "symfony/dotenv": "7.3.*",
         "symfony/expression-language": "7.3.*",
-        "symfony/flex": "^2",
+        "symfony/flex": "^2.8.2",
         "symfony/form": "7.3.*",
         "symfony/framework-bundle": "7.3.*",
         "symfony/http-client": "7.3.*",
         "symfony/intl": "7.3.*",
         "symfony/mailer": "7.3.*",
         "symfony/mime": "7.3.*",
-        "symfony/monolog-bundle": "^3.0",
+        "symfony/monolog-bundle": "^3.10",
         "symfony/notifier": "7.3.*",
         "symfony/process": "7.3.*",
         "symfony/property-access": "7.3.*",
@@ -43,8 +43,8 @@
         "symfony/validator": "7.3.*",
         "symfony/web-link": "7.3.*",
         "symfony/yaml": "7.3.*",
-        "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/extra-bundle": "^2.12|^3.21",
+        "twig/twig": "^2.12|^3.21.1"
     },
     "config": {
         "allow-plugins": {
@@ -88,8 +88,19 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "test": "XDEBUG_MODE=coverage ./vendor/bin/pest --coverage --min=100",
-        "format": "./vendor/bin/php-cs-fixer fix src --verbose"
+        "make:migrations": "php bin/console make:migration",
+        "migrate": "php bin/console doctrine:migrations:migrate",
+        "lint": "php vendor/bin/php-cs-fixer fix --dry-run --diff",
+        "lint:fix": "php vendor/bin/php-cs-fixer fix --verbose",
+        "test": "XDEBUG_MODE=coverage php vendor/bin/pest --coverage --min=100",
+        "test:smoke": "php vendor/bin/pest --group=smoke",
+        "test:unit": "php vendor/bin/pest --group=unit",
+        "test:feature": "php vendor/bin/pest --group=feature",
+        "test:integration": "php vendor/bin/pest --group=integration",
+        "docker:down": "docker compose --profile full down",
+        "docker:down:fix": "docker compose --profile full down -v --remove-orphans && echo \"Or manually remove Docker volumes if that fails\"",
+        "docker:dbonly": "docker compose --profile dbonly up -d",
+        "docker:full": "docker compose --profile full up -d"
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -102,14 +113,14 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^4.3",
-        "fakerphp/faker": "^1.24",
-        "friendsofphp/php-cs-fixer": "^3.89",
-        "pestphp/pest": "^4.1",
+        "fakerphp/faker": "^1.24.1",
+        "friendsofphp/php-cs-fixer": "^3.89.1",
+        "pestphp/pest": "^4.1.2",
         "phpunit/phpunit": "^12.4",
         "symfony/browser-kit": "7.3.*",
         "symfony/css-selector": "7.3.*",
         "symfony/debug-bundle": "7.3.*",
-        "symfony/maker-bundle": "^1.0",
+        "symfony/maker-bundle": "^1.64",
         "symfony/stopwatch": "7.3.*",
         "symfony/web-profiler-bundle": "7.3.*"
     }
