@@ -58,6 +58,7 @@ Backend Assignment for Creatim
     ```bash
     ./vendor/bin/pest --init
     ```
+- [x] Add PHPStan
 - [x] Add composer scripts:
     ```json
         "scripts": {
@@ -83,13 +84,13 @@ Backend Assignment for Creatim
   - [x] `Order`
   - [x] `OrderItem`
 - [x] Generate and run Doctrine migrations
-- [ ] Add Fixtures for sample data using Faker
+- [x] Add Fixtures for sample data using Faker
 
 ### Business Logic
 
 - [ ] Implement validation for unique item/subscription per customer
-- [ ] Implement order total calculation
-- [ ] Implement error handling (custom exceptions)
+- [x] Implement order total calculation
+- [x] Implement error handling (custom exceptions)
 - [ ] Implement SMS service management (two services, 5 SMS/min limit)
 - [ ] Implement fallback strategy between SMS providers
 - [ ] Log SMS events (Spatie Ray / Monolog)

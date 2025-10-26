@@ -1,0 +1,17 @@
+parameters:
+    level: 6
+    paths:
+        - bin/
+        - config/
+        - public/
+        - src/
+        - tests/
+
+    excludePaths:
+        - vendor
+        - var
+
+    phpVersion: 80400
+
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
