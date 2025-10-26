@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Symfony\Component\Routing\RouterInterface;
 
 it('all public routes respond without error', function () {

@@ -21,7 +21,7 @@ class AppFixtures extends Fixture
 
         // --- 10 Articles ---
         $articles = [];
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $article = new Article();
             $article->setName($faker->words(3, true))
                 ->setDescription($faker->sentence(10))
@@ -33,7 +33,7 @@ class AppFixtures extends Fixture
 
         // --- 3 Subscription Packages ---
         $packages = [];
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; ++$i) {
             $package = new SubscriptionPackage();
             $package->setName($faker->words(2, true))
                 ->setDescription($faker->sentence(8))
@@ -44,16 +44,16 @@ class AppFixtures extends Fixture
         }
 
         // --- 5 Customers + 1–2 Orders per Customer + 1–3 OrderItems per Order ---
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 5; ++$i) {
             $customerPhone = $faker->unique()->numerify('+386########');
             $customer = new Customer($customerPhone);
 
             $orderCount = $faker->numberBetween(1, 2);
-            for ($j = 0; $j < $orderCount; $j++) {
+            for ($j = 0; $j < $orderCount; ++$j) {
                 $order = new Order($customer);
 
                 $itemCount = $faker->numberBetween(1, 3);
-                for ($k = 0; $k < $itemCount; $k++) {
+                for ($k = 0; $k < $itemCount; ++$k) {
                     if ($faker->boolean(80)) {
                         // OrderItem = Article
                         $article = $faker->randomElement($articles);

@@ -1,7 +1,9 @@
 <?php
 
-use App\Entity\Order;
+declare(strict_types=1);
+
 use App\Entity\Customer;
+use App\Entity\Order;
 use App\Entity\OrderItem;
 
 it('generates an order number automatically', function () {

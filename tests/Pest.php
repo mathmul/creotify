@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -13,7 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 | - WebTestCase: for functional HTTP tests
 |
 */
-
 
 pest()->extends(KernelTestCase::class)->in('Smoke')->group('smoke');
 pest()->extends(KernelTestCase::class)->in('Unit')->group('unit');
@@ -33,11 +34,11 @@ pest()->extends(KernelTestCase::class)->in('Integration')->group('integration');
 |
 */
 
-expect()->extend('toBeOne', fn() => $this->toBe(1));
+expect()->extend('toBeOne', fn () => $this->toBe(1));
 expect()->extend('toBeOneOf', function (array $collection): void {
     $value = $this->value;
     $isOneOf = in_array($value, $collection, true);
-    expect($isOneOf)->toBeTrue("Failed asserting that [{$value}] is one of [" . implode(', ', $collection) . "].");
+    expect($isOneOf)->toBeTrue("Failed asserting that [{$value}] is one of [".implode(', ', $collection).'].');
 });
 
 /*
