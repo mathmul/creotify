@@ -22,8 +22,6 @@ services:
     App\Repository\:
         resource: '../src/Repository'
         tags: ['doctrine.repository_service']
-        autowire: true
-        autoconfigure: true
 
     App\Repository\Contract\ArticleRepositoryInterface: '@App\Repository\ArticleRepository'
     App\Repository\Contract\CustomerRepositoryInterface: '@App\Repository\CustomerRepository'
