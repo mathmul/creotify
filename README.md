@@ -42,9 +42,9 @@ Creatim Backend Assignment
 
 - [x] Create new Symfony project via `symfony new creotify --webapp`
 - [x] Configure project with Laravel Herd & HTTPS (https://creotify.test)
-- [ ] Add Docker setup (PHP-FPM + Nginx + MySQL + Mailpit)
+- [x] Add Docker setup (PHP-FPM + Nginx + MySQL + Mailpit)
 - [ ] Extend Dockerfile with Xdebug + Ray pre-configuration
-- [ ] Update `.env` with Postgres credentials
+- [x] Update `.env` with Postgres credentials
 - [x] Require optional dev dependencies:
     ```bash
     composer require pestphp/pest --dev --with-all-dependencies
@@ -108,13 +108,12 @@ Creatim Backend Assignment
 
 ### Dockerization
 
-- [ ] Add `Dockerfile` + `docker-compose.yml`
-- [ ] Include PHP 8.4, Composer, MySQL 8, Nginx
-- [ ] Configure for local HTTPS (creotify.test)
+- [x] Add `Dockerfile` + `docker-compose.yml`
+- [x] Include PHP 8.4, Composer, MySQL 8, Nginx
 
 ### Documentation
 
-- [ ] Add setup instructions to README
+- [x] Add setup instructions to README
 - [ ] Add Postman/cURL examples for all API endpoints
 - [ ] Document SMS Service usage (interface + example)
 - [ ] Add note on test execution (`composer test`)
