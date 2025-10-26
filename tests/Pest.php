@@ -14,11 +14,13 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 |
 */
 
-// uses(KernelTestCase::class)->in('Unit');
-// uses(WebTestCase::class)->in('Feature');
 
-pest()->extend(KernelTestCase::class)->in('Unit');
-pest()->extend(WebTestCase::class)->in('Feature');
+pest()->extends(KernelTestCase::class)->in('Smoke')->group('smoke');
+pest()->extends(KernelTestCase::class)->in('Unit')->group('unit');
+pest()->extends(WebTestCase::class)->in('Feature')->group('feature');
+pest()->extends(WebTestCase::class)->in('Integration')->group('integration');
+
+// pest()->printer()->compact();
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +34,11 @@ pest()->extend(WebTestCase::class)->in('Feature');
 */
 
 expect()->extend('toBeOne', fn() => $this->toBe(1));
+expect()->extend('toBeOneOf', function (array $collection): void {
+    $value = $this->value;
+    $isOneOf = in_array($value, $collection, true);
+    expect($isOneOf)->toBeTrue("Failed asserting that [{$value}] is one of [" . implode(', ', $collection) . "].");
+});
 
 /*
 |--------------------------------------------------------------------------

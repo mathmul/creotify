@@ -93,6 +93,10 @@ Creatim Backend Assignment
 
 ### Testing (TDD with Pest)
 
+- [x] Write smoke tests for:
+  - [x] Kernel
+  - [x] Health endpoint
+  - [x] All public routes
 - [ ] Write unit tests for:
   - [ ] OrderService (purchase logic)
   - [ ] SMSService (fallback logic)
@@ -144,8 +148,8 @@ Quick start:
 # 1) Clone
 git clone https://github.com/mathmul/creotify.git && cd creotify
 
-# 2) Copy .env
-cp .env.example .env
+# 2) Create .env.local and copy DATABASE_URL for Herd from .env
+touch .env.local
 
 # 3) Install dependencies
 herd composer install
@@ -190,8 +194,8 @@ Quick start:
 # 1) Clone
 git clone git@github.com:mathmul/creotify.git && cd creotify
 
-# 2) Copy .env
-cp .env.example .env
+# 2) (Optional) Create .env.local for overrides
+touch .env.local
 
 # 3) Start full docker stack
 docker compose --profile full up -d
@@ -337,4 +341,18 @@ Run via Composer:
 ```bash
 composer lint     # checks style
 composer format   # fixes style issues
+```
+
+#### Database Models
+
+Make sure docker container is running - see [Getting started](#getting-started).
+
+After creating/updating models, create new migration files:
+```bash
+php bin/console make:migration
+```
+
+Then run migrations to sync database schema:
+```bash
+php bin/console doctrine:migrations:migrate
 ```
