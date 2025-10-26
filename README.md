@@ -63,13 +63,13 @@ Creatim Backend Assignment
 
 ### Domain Modeling
 
-- [ ] Create entities:
-  - [ ] `Article`
-  - [ ] `SubscriptionPackage`
-  - [ ] `Customer`
-  - [ ] `Order`
-  - [ ] `OrderItem`
-- [ ] Generate and run Doctrine migrations
+- [x] Create entities:
+  - [x] `Article`
+  - [x] `SubscriptionPackage`
+  - [x] `Customer`
+  - [x] `Order`
+  - [x] `OrderItem`
+- [x] Generate and run Doctrine migrations
 - [ ] Add Fixtures for sample data using Faker
 
 ### Business Logic
