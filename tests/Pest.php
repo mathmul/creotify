@@ -18,9 +18,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 pest()->extends(KernelTestCase::class)->in('Smoke')->group('smoke');
 pest()->extends(KernelTestCase::class)->in('Unit')->group('unit');
 pest()->extends(WebTestCase::class)->in('Feature')->group('feature');
-pest()->extends(WebTestCase::class)->in('Integration')->group('integration');
+pest()->extends(KernelTestCase::class)->in('Integration')->group('integration');
 
-// pest()->printer()->compact();
+// pest()->printer()->compact(); // switches to dot reporter
 
 /*
 |--------------------------------------------------------------------------

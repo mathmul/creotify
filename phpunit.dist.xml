@@ -9,36 +9,59 @@
          failOnWarning="true"
          bootstrap="tests/bootstrap.php"
          cacheDirectory=".phpunit.cache"
+         stopOnFailure="true"
 >
+
+    <!-- ───── Environment ───── -->
     <php>
-        <ini name="display_errors" value="1" />
-        <ini name="error_reporting" value="-1" />
-        <server name="APP_ENV" value="test" force="true" />
-        <server name="SHELL_VERBOSITY" value="-1" />
+        <ini name="memory_limit" value="512M"/>
+        <ini name="error_reporting" value="-1"/>
+        <env name="APP_ENV" value="test"/>
+        <server name="SHELL_VERBOSITY" value="-1"/>
+        <env name="KERNEL_CLASS" value="App\Kernel"/>
+
+        <env name="MAILER_DSN" value="null://null"/>
+        <env name="MESSENGER_TRANSPORT_DSN" value="sync://"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+
     </php>
 
+    <!-- ───── Test Suites ───── -->
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+        <testsuite name="Smoke">
+            <directory>tests/Smoke</directory>
+        </testsuite>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory>tests/Integration</directory>
         </testsuite>
     </testsuites>
 
-    <source ignoreSuppressionOfDeprecations="true"
-            ignoreIndirectDeprecations="true"
-            restrictNotices="true"
-            restrictWarnings="true"
-    >
+    <!-- ───── Code Sources ───── -->
+    <source>
         <include>
             <directory>src</directory>
         </include>
-
-        <deprecationTrigger>
-            <method>Doctrine\Deprecations\Deprecation::trigger</method>
-            <method>Doctrine\Deprecations\Deprecation::delegateTriggerToBackend</method>
-            <function>trigger_deprecation</function>
-        </deprecationTrigger>
+        <exclude>
+            <directory>src/DataFixtures</directory>
+            <directory suffix="Exception.php">src/</directory>
+        </exclude>
     </source>
 
-    <extensions>
-    </extensions>
+    <!-- ───── Logging & Coverage ───── -->
+    <logging>
+        <junit outputFile="var/log/junit.xml"/>
+    </logging>
+    <coverage includeUncoveredFiles="true" pathCoverage="false">
+        <report>
+            <clover outputFile="var/coverage/coverage.xml"/>
+            <html outputDirectory="var/coverage/html"/>
+            <text outputFile="var/coverage/summary.txt" showOnlySummary="true"/>
+        </report>
+    </coverage>
 </phpunit>
