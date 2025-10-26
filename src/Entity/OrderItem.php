@@ -23,7 +23,7 @@ class OrderItem
     #[ORM\Column(type: Types::STRING, length: 20)]
     private ?string $itemType = null; // 'article' or 'subscription'
 
-    #[ORM\Column(type: Types::INTEGER)] // article_id or subscription_package_id
+    #[ORM\Column(type: Types::INTEGER)] // article.id or subscription_package.id
     private ?int $itemId = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Traits;
 
+use App\DataFixtures\AppFixtures;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 
@@ -18,22 +19,22 @@ use Doctrine\ORM\Tools\SchemaTool;
  */
 trait RefreshDatabase
 {
-    protected function refreshDatabase(): void
+    protected function refreshDatabase(?AppFixtures $fixtures = null): void
     {
-        /** @var EntityManagerInterface $em */
-        $em = static::getContainer()->get(EntityManagerInterface::class);
-        $metadata = $em->getMetadataFactory()->getAllMetadata();
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = static::getContainer()->get(EntityManagerInterface::class);
+        $metadata = $entityManager->getMetadataFactory()->getAllMetadata();
 
         if (empty($metadata)) {
             throw new \RuntimeException('No entity metadata found to build schema.');
         }
 
-        $tool = new SchemaTool($em);
+        $schemaTool = new SchemaTool($entityManager);
+        $schemaTool->dropDatabase();
+        $schemaTool->createSchema($metadata);
 
-        // Drop and recreate the schema freshly
-        $tool->dropDatabase();
-        $tool->createSchema($metadata);
+        $entityManager->clear();
 
-        $em->clear();
+        $fixtures?->load($entityManager);
     }
 }

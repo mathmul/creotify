@@ -5,17 +5,35 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\OrderItem;
+use App\Repository\Contract\OrderItemRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<OrderItem>
  */
-class OrderItemRepository extends ServiceEntityRepository
+class OrderItemRepository extends ServiceEntityRepository implements OrderItemRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, OrderItem::class);
+    }
+
+    /**
+     * Persist an OrderItem in memory (and optionally flush it to database).
+     *
+     * @param OrderItem $entity
+     *
+     * @implements RepositoryInterface<OrderItem>
+     */
+    public function save(object $entity, bool $flush = true): void
+    {
+        $em = $this->getEntityManager();
+        $em->persist($entity);
+
+        if ($flush) {
+            $em->flush();
+        }
     }
 
     //    /**

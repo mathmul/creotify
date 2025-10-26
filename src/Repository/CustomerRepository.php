@@ -5,17 +5,35 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Customer;
+use App\Repository\Contract\CustomerRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Customer>
  */
-class CustomerRepository extends ServiceEntityRepository
+class CustomerRepository extends ServiceEntityRepository implements CustomerRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Customer::class);
+    }
+
+    /**
+     * Persist an Customer in memory (and optionally flush it to database).
+     *
+     * @param Customer $entity
+     *
+     * @implements RepositoryInterface<Customer>
+     */
+    public function save(object $entity, bool $flush = true): void
+    {
+        $em = $this->getEntityManager();
+        $em->persist($entity);
+
+        if ($flush) {
+            $em->flush();
+        }
     }
 
     //    /**

@@ -81,9 +81,10 @@ class AppFixtures extends Fixture
                     (string) array_sum(array_map(fn (OrderItem $oi) => (float) $oi->getPrice(), $order->getOrderItems()->toArray()))
                 );
 
-                $manager->persist($customer);
                 $manager->persist($order);
             }
+
+            $manager->persist($customer);
         }
 
         $manager->flush();

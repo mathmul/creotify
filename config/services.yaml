@@ -18,3 +18,15 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Repository\:
+        resource: '../src/Repository'
+        tags: ['doctrine.repository_service']
+        autowire: true
+        autoconfigure: true
+
+    App\Repository\Contract\ArticleRepositoryInterface: '@App\Repository\ArticleRepository'
+    App\Repository\Contract\CustomerRepositoryInterface: '@App\Repository\CustomerRepository'
+    App\Repository\Contract\OrderRepositoryInterface: '@App\Repository\OrderRepository'
+    App\Repository\Contract\OrderItemRepositoryInterface: '@App\Repository\OrderItemRepository'
+    App\Repository\Contract\SubscriptionPackageRepositoryInterface: '@App\Repository\SubscriptionPackageRepository'

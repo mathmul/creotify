@@ -124,6 +124,7 @@ class Order
         if (!$this->orderItems->contains($item)) {
             $this->orderItems->add($item);
             $item->setOrder($this);
+            $this->recalculateTotal();
         }
 
         return $this;
@@ -132,12 +133,22 @@ class Order
     public function removeOrderItem(OrderItem $item): static
     {
         if ($this->orderItems->removeElement($item)) {
-            // set the owning side to null (unless already changed)
             if ($item->getOrder() === $this) {
                 $item->setOrder(null);
             }
+            $this->recalculateTotal();
         }
 
         return $this;
+    }
+
+    private function recalculateTotal(): void
+    {
+        $total = array_sum(array_map(
+            fn (OrderItem $i) => (float) $i->getPrice(),
+            $this->orderItems->toArray()
+        ));
+
+        $this->totalPrice = number_format($total, 2, '.', '');
     }
 }

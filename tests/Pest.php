@@ -21,6 +21,8 @@ pest()->extends(KernelTestCase::class)->in('Unit')->group('unit');
 pest()->extends(WebTestCase::class)->in('Feature')->group('feature');
 pest()->extends(KernelTestCase::class)->in('Integration')->group('integration');
 
+pest()->afterEach(fn () => Mockery::close());
+
 // pest()->printer()->compact(); // switches to dot reporter
 
 /*

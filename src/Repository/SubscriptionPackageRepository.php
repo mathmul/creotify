@@ -5,17 +5,35 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\SubscriptionPackage;
+use App\Repository\Contract\SubscriptionPackageRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<SubscriptionPackage>
  */
-class SubscriptionPackageRepository extends ServiceEntityRepository
+class SubscriptionPackageRepository extends ServiceEntityRepository implements SubscriptionPackageRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SubscriptionPackage::class);
+    }
+
+    /**
+     * Persist an SubscriptionPackage in memory (and optionally flush it to database).
+     *
+     * @param SubscriptionPackage $entity
+     *
+     * @implements RepositoryInterface<SubscriptionPackage>
+     */
+    public function save(object $entity, bool $flush = true): void
+    {
+        $em = $this->getEntityManager();
+        $em->persist($entity);
+
+        if ($flush) {
+            $em->flush();
+        }
     }
 
     //    /**

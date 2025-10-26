@@ -27,3 +27,22 @@ it('adds and removes order items', function () {
     $order->removeOrderItem($item);
     expect($order->getOrderItems())->toHaveCount(0);
 });
+
+it('updates total price when items are added or removed', function () {
+    $customer = new Customer('999');
+    $order = new Order($customer);
+
+    $item1 = new OrderItem($order, 'article', 1, '10.00');
+    $item2 = new OrderItem($order, 'article', 2, '5.50');
+
+    expect($order->getTotalPrice())->toBe('0.00');
+
+    $order->addOrderItem($item1);
+    expect($order->getTotalPrice())->toBe('10.00');
+
+    $order->addOrderItem($item2);
+    expect($order->getTotalPrice())->toBe('15.50');
+
+    $order->removeOrderItem($item1);
+    expect($order->getTotalPrice())->toBe('5.50');
+});
