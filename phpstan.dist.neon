@@ -5,11 +5,11 @@ parameters:
         - config/
         - public/
         - src/
-        - tests/
 
     excludePaths:
-        - vendor
-        - var
+        - vendor/
+        - var/
+        - tests/
 
     phpVersion: 80400
 

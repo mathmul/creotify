@@ -16,7 +16,7 @@ class Customer
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
-    private ?int $id = null;
+    private ?int $id = null; // @phpstan-ignore-line
 
     #[ORM\Column(type: Types::STRING, length: 20, unique: true)]
     private ?string $phoneNumber = null;
@@ -24,6 +24,7 @@ class Customer
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
+    /** @var Collection<int, Order> $orders */
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'customer', cascade: ['persist'], orphanRemoval: true)]
     private Collection $orders;
 

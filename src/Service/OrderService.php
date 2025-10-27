@@ -8,9 +8,9 @@ use App\Entity\Article;
 use App\Entity\Customer;
 use App\Entity\Order;
 use App\Entity\OrderItem;
+use App\Entity\SubscriptionPackage;
 use App\Repository\Contract\ArticleRepositoryInterface;
 use App\Repository\Contract\CustomerRepositoryInterface;
-use App\Repository\Contract\OrderItemRepositoryInterface;
 use App\Repository\Contract\OrderRepositoryInterface;
 use App\Repository\Contract\SubscriptionPackageRepositoryInterface;
 use App\Service\Exception\DuplicatePurchaseException;
@@ -21,15 +21,17 @@ class OrderService
     public function __construct(
         private readonly ArticleRepositoryInterface $articleRepository,
         private readonly CustomerRepositoryInterface $customerRepository,
-        private readonly OrderItemRepositoryInterface $orderItemRepository,
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly SubscriptionPackageRepositoryInterface $subscriptionPackageRepository,
     ) {
     }
 
+    /**
+     * @param list<array{type: 'article'|'subscription', id: int}> $items
+     */
     public function createOrder(string $customerPhone, array $items): Order
     {
-        /** @var Customer $customer */
+        /** @var Customer|null $customer */
         $customer = $this->customerRepository->findOneBy(['phoneNumber' => $customerPhone]);
         $customer ??= new Customer($customerPhone);
         $this->customerRepository->save($customer);

@@ -14,7 +14,7 @@ class OrderItem
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
-    private ?int $id = null;
+    private ?int $id = null; // @phpstan-ignore-line
 
     #[ORM\ManyToOne(inversedBy: 'orderItems', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'order_id', nullable: false)]

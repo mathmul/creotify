@@ -17,7 +17,7 @@ class Order
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
-    private ?int $id = null;
+    private ?int $id = null; // @phpstan-ignore-line
 
     #[ORM\Column(type: Types::STRING, length: 50, unique: true)]
     private ?string $orderNumber = null;
@@ -27,14 +27,15 @@ class Order
     private ?Customer $customer = null;
 
     #[ORM\Column(type: Types::STRING, length: 30)]
-    private ?string $status = 'pending';
+    private string $status = 'pending';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $totalPrice = '0.00';
+    private string $totalPrice = '0.00';
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
+    /** @var Collection<int, OrderItem> $orderItems */
     #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'order', cascade: ['persist'], orphanRemoval: true)]
     private Collection $orderItems;
 

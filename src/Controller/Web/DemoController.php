@@ -57,7 +57,7 @@ final class DemoController extends AbstractController
         $phone = $request->request->get('phoneNumber');
         $selection = (string) $request->request->get('selection');
         $parts = explode(':', $selection, 2);
-        $itemType = $parts[0] ?? null;
+        $itemType = $parts[0];
         $itemId = isset($parts[1]) ? (int) $parts[1] : 0;
 
         $response = $this->httpClient->request('POST', sprintf('%s/api/orders', $this->getParameter('app.base_url')), [

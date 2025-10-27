@@ -7,7 +7,6 @@ use App\Entity\Customer;
 use App\Entity\Order;
 use App\Repository\ArticleRepository;
 use App\Repository\CustomerRepository;
-use App\Repository\OrderItemRepository;
 use App\Repository\OrderRepository;
 use App\Repository\SubscriptionPackageRepository;
 use App\Service\Exception\DuplicatePurchaseException;
@@ -20,14 +19,12 @@ uses(EntityHelper::class);
 beforeEach(function () {
     $this->articleRepo = Mockery::mock(ArticleRepository::class);
     $this->customerRepo = Mockery::mock(CustomerRepository::class);
-    $this->orderItemRepo = Mockery::mock(OrderItemRepository::class);
     $this->orderRepo = Mockery::mock(OrderRepository::class);
     $this->subscriptionRepo = Mockery::mock(SubscriptionPackageRepository::class);
 
     $this->service = new OrderService(
         $this->articleRepo,
         $this->customerRepo,
-        $this->orderItemRepo,
         $this->orderRepo,
         $this->subscriptionRepo,
     );
