@@ -24,7 +24,7 @@ class Customer
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'customer')]
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'customer', cascade: ['persist'], orphanRemoval: true)]
     private Collection $orders;
 
     public function __construct(string $phoneNumber)

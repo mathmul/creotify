@@ -16,7 +16,7 @@ class OrderItem
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orderItems')]
+    #[ORM\ManyToOne(inversedBy: 'orderItems', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'order_id', nullable: false)]
     private ?Order $order = null;
 

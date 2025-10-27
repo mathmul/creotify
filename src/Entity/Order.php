@@ -22,7 +22,7 @@ class Order
     #[ORM\Column(type: Types::STRING, length: 50, unique: true)]
     private ?string $orderNumber = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\ManyToOne(inversedBy: 'orders', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'customer_id', nullable: false)]
     private ?Customer $customer = null;
 
@@ -35,7 +35,7 @@ class Order
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'order')]
+    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'order', cascade: ['persist'], orphanRemoval: true)]
     private Collection $orderItems;
 
     public function __construct(Customer $customer)
