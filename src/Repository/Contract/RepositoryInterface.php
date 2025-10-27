@@ -10,6 +10,8 @@ use Doctrine\Persistence\ObjectRepository;
  * @template T of object
  *
  * @extends ObjectRepository<T>
+ *
+ * @method QueryBuilder createQueryBuilder(string $alias, string $indexBy = null)
  */
 interface RepositoryInterface extends ObjectRepository
 {

@@ -9,22 +9,110 @@ Backend Assignment for Creatim
 ```bash
 ➜  creotify git:(main) ✗ composer test
 
-   DEPR  Tests\Unit\AppFixturesTest
-  ! it executes AppFixtures load() successfully → Class "Doctrine\ORM\Proxy\Autoloader" is deprecated. Use native lazy objects instead. (Auto… 0.19s
+   PASS  Tests\Smoke\HealthEndpointSmokeTest
+  ✓ it responds with 200 OK for /api/health                                                    0.07s
 
-   PASS  Tests\Unit\ExampleTest
-  ✓ example                                                                                                                                    0.01s
+   PASS  Tests\Smoke\KernelSmokeTest
+  ✓ it boots the Symfony kernel successfully                                                   0.01s
 
-   PASS  Tests\Feature\GetApiHealthTest
-  ✓ it returns 200 OK for /api/health                                                                                                          0.04s
+   PASS  Tests\Smoke\RouteSmokeTest
+  ✓ it all public routes respond without error                                                 0.04s
 
-  Tests:    1 deprecated, 2 passed (3 assertions)
-  Duration: 0.30s
+   PASS  Tests\Smoke\UnimplementedClassesTest
+  ✓ it sends SMS with ProviderA                                                                0.01s
+  ✓ it sends SMS with ProviderB                                                                0.01s
 
-  Controller/Api/HealthController ........................................................................................................... 100.0%
-  Kernel .................................................................................................................................... 100.0%
-  ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-                                                                                                                                      Total: 100.0 %
+   PASS  Tests\Unit\Entity\CustomerTest
+  ✓ it adds and removes orders                                                                 0.01s
+
+   PASS  Tests\Unit\Entity\OrderTest
+  ✓ it generates an order number automatically
+  ✓ it adds and removes order items
+  ✓ it updates total price when items are added or removed
+
+   PASS  Tests\Unit\Service\OrderServiceTest
+  ✓ it creates a valid order successfully                                                      0.01s
+  ✓ it throws on duplicate article                                                             0.01s
+  ✓ it throws on duplicate subscription                                                        0.01s
+
+   PASS  Tests\Unit\Service\SMS\RateLimitedSmsManagerTest
+  ✓ it uses primary provider until rate limit is reached                                       0.01s
+  ✓ it switches to fallback provider after 5 messages
+  ✓ it resets counter after a minute and uses primary again
+
+   DEPR  Tests\Feature\ApiOrderTest
+  ! it creates an order successfully → Passing $sequence as a Sequence object to
+    Doctrine\DBAL\Platforms\AbstractPlatform::getDropSequenceSQL is deprecated. Pass it as a quoted
+    name instead. (AbstractPlatform.php:2434 called by…                                        0.14s
+  ✓ it prevents duplicate subscription purchase                                                0.11s
+  ✓ it lists all orders for a customer                                                         0.14s
+  ✓ it retrieves a specific order by orderNumber                                               0.11s
+  ✓ it cancels (deletes) an order successfully                                                 0.13s
+
+   PASS  Tests\Integration\DataFixtures\AppFixturesTest
+  ✓ it executes AppFixtures load() successfully                                                0.11s
+
+   PASS  Tests\Integration\Repository\OrderRepositoryTest
+  ✓ it returns bool for customerHasSubscription                                                0.08s
+  ✓ it returns bool for customerHasArticle                                                     0.07s
+  ──────────────────────────────────────────────────────────────────────────────────────────────────
+   DEPRECATED  Tests\Feature\ApiOrderTest > it creates an order successfully
+  Passing $sequence as a Sequence object to
+  Doctrine\DBAL\Platforms\AbstractPlatform::getDropSequenceSQL is deprecated. Pass it as a quoted
+  name instead. (AbstractPlatform.php:2434 called by PostgreSQLPlatform.php:808,
+  https://github.com/doctrine/dbal/issues/4798, package doctrine/dbal)
+
+  at vendor/doctrine/deprecations/src/Deprecation.php:208
+    204▕             $link,
+    205▕             $package
+    206▕         );
+    207▕
+  ➜ 208▕         @trigger_error($message, E_USER_DEPRECATED);
+    209▕     }
+    210▕
+    211▕     /**
+    212▕      * A non-local-aware version of PHPs basename function.
+
+      +8 vendor frames
+  9   tests/Traits/RefreshDatabase.php:33
+  10  tests/Feature/ApiOrderTest.php:14
+
+
+  Tests:    1 deprecated, 22 passed (57 assertions)
+  Duration: 1.17s
+
+  Controller/Api/HealthController ........................................................... 100.0%
+  Controller/Api/OrderController ............................... 33, 58..59, 68..69, 99, 119 / 88.9%
+  Entity/Article ....................................................... 46, 58, 82, 94..101 / 64.7%
+  Entity/Customer ................................................................... 39..63 / 63.2%
+  Entity/Order ................................................ 51, 61..63, 85..87, 109..111 / 80.6%
+  Entity/OrderItem .............................................. 42, 64..66, 76..78, 88..90 / 58.8%
+  Entity/SubscriptionPackage ........................................... 46, 58, 82, 94..101 / 64.7%
+  Kernel .................................................................................... 100.0%
+  Repository/ArticleRepository ...................................................... 31..35 / 20.0%
+  Repository/Contract/ArticleRepositoryInterface ............................................ 100.0%
+  Repository/Contract/CustomerRepositoryInterface ........................................... 100.0%
+  Repository/Contract/OrderItemRepositoryInterface .......................................... 100.0%
+  Repository/Contract/OrderRepositoryInterface .............................................. 100.0%
+  Repository/Contract/RepositoryInterface ................................................... 100.0%
+  Repository/Contract/SubscriptionPackageRepositoryInterface ................................ 100.0%
+  Repository/CustomerRepository ............................................................. 100.0%
+  Repository/OrderItemRepository .................................................... 31..38 / 12.5%
+  Repository/OrderRepository ................................................................ 100.0%
+  Repository/SubscriptionPackageRepository .......................................... 31..35 / 20.0%
+  Service/OrderService ...................................................................... 100.0%
+  Service/SMS/Contract/SmsManagerInterface .................................................. 100.0%
+  Service/SMS/Contract/SmsProviderInterface ................................................. 100.0%
+  Service/SMS/RateLimitedSmsManager ......................................................... 100.0%
+  Service/SMS/SmsProviderA .................................................................. 100.0%
+  Service/SMS/SmsProviderB .................................................................. 100.0%
+  ──────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                       Total: 78.5 %
+
+   FAIL  Code coverage below expected  100.0 %, currently  78.5 %.
+
+Script XDEBUG_MODE=coverage php vendor/bin/pest --coverage --min=100 handling the test event
+returned with error code 1
 ```
 
 > _**Note:** Deprecation warnings are expected due to Doctrine DBAL 4 compatibility; they do not indicate test failures._
@@ -45,7 +133,7 @@ Backend Assignment for Creatim
 - [x] Create new Symfony project via `symfony new creotify --webapp`
 - [x] Configure project with Laravel Herd & HTTPS (https://creotify.test)
 - [x] Add Docker setup (PHP-FPM + Nginx + Postgres + Mailpit)
-- [ ] Extend Dockerfile with Xdebug + Ray pre-configuration
+- [x] Extend Dockerfile with Xdebug + Ray pre-configuration
 - [x] Update `.env` with Postgres credentials
 - [x] Require optional dev dependencies:
     ```bash
@@ -73,6 +161,7 @@ Backend Assignment for Creatim
     ```
     See composer.json `"scripts"` for more aliases.
 - [x] Ensure all tests pass with `composer test` and 100% coverage
+- [ ] Add authentication
 
 
 ### Domain Modeling
@@ -88,21 +177,19 @@ Backend Assignment for Creatim
 
 ### Business Logic
 
-- [ ] Implement validation for unique item/subscription per customer
+- [x] Implement validation for unique item/subscription per customer
 - [x] Implement order total calculation
 - [x] Implement error handling (custom exceptions)
-- [ ] Implement SMS service management (two services, 5 SMS/min limit)
-- [ ] Implement fallback strategy between SMS providers
-- [ ] Log SMS events (Spatie Ray / Monolog)
+- [x] Implement SMS service management (two services, 5 SMS/min limit + fallback)
+- [x] Log SMS events (Spatie Ray / Monolog)
+- [ ] Implement soft-deletion for all entities
 
 ### Controllers & Forms
 
-- [ ] CRUD for `Article`
-- [ ] CRUD for `SubscriptionPackage`
-- [ ] Order endpoints:
-  - [ ] Create order (purchase flow)
-  - [ ] List orders
-  - [ ] Cancel order (handle deletion logic)
+- [x] Order endpoints:
+  - [x] Create order (purchase flow)
+  - [x] List orders
+  - [x] Cancel order (handle deletion logic)
 - [ ] Implement Symfony Forms for validation and clean DTO mapping
 
 ### Testing (TDD with Pest)
@@ -111,9 +198,9 @@ Backend Assignment for Creatim
   - [x] Kernel
   - [x] Health endpoint
   - [x] All public routes
-- [ ] Write unit tests for:
-  - [ ] OrderService (purchase logic)
-  - [ ] SMSService (fallback logic)
+- [x] Write unit tests for:
+  - [x] OrderService (purchase logic)
+  - [x] SMSService (fallback logic)
 - [ ] Write functional tests for:
   - [ ] Order creation endpoint
   - [ ] Duplicate purchase restriction
@@ -129,14 +216,14 @@ Backend Assignment for Creatim
 
 - [x] Add setup instructions to README
 - [ ] Add Postman/cURL examples for all API endpoints
-- [ ] Document SMS Service usage (interface + example)
+- [x] Document SMS Service usage (interface + example)
 - [ ] Add note on test execution (`composer test`)
 
 ### Polishing
 
 - [ ] Ensure code comments in complex logic
 - [ ] Apply DRY and MVC clean-up
-- [ ] Format code via PHP-CS-Fixer
+- [x] Format code via PHP-CS-Fixer
 - [ ] Commit history clean and semantic
 
 
@@ -230,6 +317,46 @@ docker compose exec app composer test
 
 > _**Note:** All `composer <command>` commands mentioned below can be run in the container with `docker compose exec app composer <command>`._
 
+
+## Documentation
+
+### SMS Service Example
+
+When an order is successfully placed, an SMS confirmation is sent to the customer.
+The system uses the `RateLimitedSmsManager`, which delegates to `SmsProviderA` until
+five messages per minute are reached, then automatically switches to `SmsProviderB`.
+
+Example usage:
+
+```php
+use App\Service\SMS\RateLimitedSmsManager;
+use App\Service\SMS\SmsProviderA;
+use App\Service\SMS\SmsProviderB;
+
+$manager = new RateLimitedSmsManager(new SmsProviderA(), new SmsProviderB());
+$manager->sendSMS('+38612345678', 'Your order was successfully placed!');
+```
+
+In development, messages are logged via Spatie Ray and visible in the Ray desktop app.
+
+### Testing
+
+Run all tests (smoke, unit, integration, and feature) with coverage:
+
+```bash
+composer test
+```
+
+To run a specific group:
+
+```bash
+composer test:smoke
+composer test:unit
+composer test:integration
+composer test:feature
+```
+
+Code coverage target: 100% (adjust in composer.json <del>if</del>when necessary)
 
 ## Development
 

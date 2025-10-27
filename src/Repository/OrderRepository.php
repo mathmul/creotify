@@ -37,6 +37,15 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
         }
     }
 
+    public function remove(object $entity, bool $flush = true): void
+    {
+        $em = $this->getEntityManager();
+        $em->remove($entity);
+        if ($flush) {
+            $em->flush();
+        }
+    }
+
     public function customerHasArticle(Customer $customer, int $articleId): bool
     {
         return (bool) $this->createQueryBuilder('o')
