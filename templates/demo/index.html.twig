@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Creotify Demo{% endblock %}
+
+{% block body %}
+<h1>Creotify API Demo</h1>
+
+<form action="{{ path('web_demo_create_order') }}" method="POST" data-turbo="false">
+    <label>Phone number:</label>
+    <input type="text" name="phoneNumber" required>
+
+    <h3>Articles</h3>
+    {% for article in articles %}
+        <label>
+            <input type="radio" name="selection" value="article:{{ article.id }}" required>
+            {{ article.name }} - {{ article.price }} €
+        </label><br>
+    {% endfor %}
+
+    <h3>Subscriptions</h3>
+    {% for sub in subscriptions %}
+        <label>
+            <input type="radio" name="selection" value="subscription:{{ sub.id }}" required>
+            {{ sub.name }} - {{ sub.price }} €
+        </label><br>
+    {% endfor %}
+
+    <button type="submit">Purchase</button>
+</form>
+
+<hr>
+
+<h3>View Orders</h3>
+<form action="{{ path('web_demo_orders') }}" method="GET">
+    <input type="text" name="phoneNumber" placeholder="+386..." required>
+    <button type="submit">Show Orders</button>
+</form>
+{% endblock %}

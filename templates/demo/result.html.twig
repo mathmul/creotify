@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order Result{% endblock %}
+
+{% block body %}
+<h1>Order Result</h1>
+
+{% if status == 201 %}
+    <p>✅ Order <strong>{{ response.orderNumber }}</strong> created successfully!</p>
+    <p>Status: {{ response.status }} | Total: {{ response.totalPrice }} €</p>
+{% else %}
+    <p>❌ Error: {{ response.error ?? 'Unknown error' }}</p>
+{% endif %}
+
+<a href="{{ path('web_demo_index') }}">← Back</a>
+{% endblock %}
