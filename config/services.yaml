@@ -23,9 +23,21 @@ services:
         resource: '../src/Repository'
         tags: ['doctrine.repository_service']
 
+    App\Repository\OrderItemRepository:
+        public: true
+        arguments:
+            - '@doctrine'
+
     App\Repository\Contract\ArticleRepositoryInterface: '@App\Repository\ArticleRepository'
     App\Repository\Contract\CustomerRepositoryInterface: '@App\Repository\CustomerRepository'
     App\Repository\Contract\OrderRepositoryInterface: '@App\Repository\OrderRepository'
     App\Repository\Contract\OrderItemRepositoryInterface: '@App\Repository\OrderItemRepository'
     App\Repository\Contract\SubscriptionPackageRepositoryInterface: '@App\Repository\SubscriptionPackageRepository'
-    App\Service\SMS\SmsManagerInterface: '@App\Service\SMS\RateLimitedSmsManager'
+
+    # SMS subsystem wiring
+    App\Service\SMS\Contract\SmsProviderInterface: '@App\Service\SMS\SmsProviderA'
+    App\Service\SMS\Contract\SmsManagerInterface: '@App\Service\SMS\RateLimitedSmsManager'
+    App\Service\SMS\RateLimitedSmsManager:
+        arguments:
+            $primary: '@App\Service\SMS\SmsProviderA'
+            $fallback: '@App\Service\SMS\SmsProviderB'
