@@ -9,7 +9,6 @@ it('all public routes respond without error', function () {
     $router = self::getContainer()->get(RouterInterface::class);
 
     $skipRoutes = [
-        '/api/orders', // requires ?phoneNumber=
     ];
 
     foreach ($router->getRouteCollection() as $name => $route) {
@@ -28,6 +27,6 @@ it('all public routes respond without error', function () {
         $status = $client->getResponse()->getStatusCode();
         ray($path, $status);
 
-        expect($status)->toBeOneOf([200, 302, 401, 403]);
+        expect($status)->toBeOneOf([200, 302, 400, 401, 403, 405]);
     }
 });

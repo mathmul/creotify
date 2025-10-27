@@ -174,6 +174,7 @@ returned with error code 1
   - [x] `OrderItem`
 - [x] Generate and run Doctrine migrations
 - [x] Add Fixtures for sample data using Faker
+- [ ] Use enums for item types and order status
 
 ### Business Logic
 

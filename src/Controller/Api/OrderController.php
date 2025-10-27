@@ -117,7 +117,6 @@ final class OrderController extends AbstractController
             return $this->json(['error' => 'Order not found'], Response::HTTP_NOT_FOUND);
         }
 
-        // Soft delete or status update — logic stays in service layer if extended later
         $this->orderRepository->remove($order);
 
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
