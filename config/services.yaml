@@ -28,3 +28,4 @@ services:
     App\Repository\Contract\OrderRepositoryInterface: '@App\Repository\OrderRepository'
     App\Repository\Contract\OrderItemRepositoryInterface: '@App\Repository\OrderItemRepository'
     App\Repository\Contract\SubscriptionPackageRepositoryInterface: '@App\Repository\SubscriptionPackageRepository'
+    App\Service\SMS\SmsManagerInterface: '@App\Service\SMS\RateLimitedSmsManager'
